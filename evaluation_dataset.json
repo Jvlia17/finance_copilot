@@ -1,0 +1,147 @@
+[
+  {
+    "id": 1,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "How many customers are in the database?",
+    "expected_sql": "SELECT COUNT(*) FROM customers;"
+  },
+  {
+    "id": 2,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "How many accounts exist?",
+    "expected_sql": "SELECT COUNT(*) FROM accounts;"
+  },
+  {
+    "id": 3,
+    "difficulty": "Basic",
+    "category": "Filtering",
+    "question": "List all customer countries.",
+    "expected_sql": "SELECT DISTINCT country FROM customers;"
+  },
+  {
+    "id": 4,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "What is the average account balance?",
+    "expected_sql": "SELECT AVG(balance) FROM accounts;"
+  },
+  {
+    "id": 5,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "What is the total transaction amount?",
+    "expected_sql": "SELECT SUM(amount) FROM transactions;"
+  },
+  {
+    "id": 6,
+    "difficulty": "Basic",
+    "category": "Filtering",
+    "question": "Show all accounts with balance above 5000.",
+    "expected_sql": "SELECT * FROM accounts WHERE balance > 5000;"
+  },
+  {
+    "id": 7,
+    "difficulty": "Basic",
+    "category": "Filtering",
+    "question": "Show customers from Canada.",
+    "expected_sql": "SELECT * FROM customers WHERE country='Canada';"
+  },
+  {
+    "id": 8,
+    "difficulty": "Basic",
+    "category": "Sorting",
+    "question": "Show the 10 accounts with the highest balance.",
+    "expected_sql": "SELECT * FROM accounts ORDER BY balance DESC LIMIT 10;"
+  },
+  {
+    "id": 9,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "What is the largest transaction amount?",
+    "expected_sql": "SELECT MAX(amount) FROM transactions;"
+  },
+  {
+    "id": 10,
+    "difficulty": "Basic",
+    "category": "Aggregation",
+    "question": "What is the average transaction amount?",
+    "expected_sql": "SELECT AVG(amount) FROM transactions;"
+  },
+
+  {
+    "id": 11,
+    "difficulty": "Intermediate",
+    "category": "Group By",
+    "question": "How many customers are there in each country?",
+    "expected_sql": "SELECT country, COUNT(*) FROM customers GROUP BY country;"
+  },
+  {
+    "id": 12,
+    "difficulty": "Intermediate",
+    "category": "Group By",
+    "question": "What is the total balance by account type?",
+    "expected_sql": "SELECT account_type, SUM(balance) FROM accounts GROUP BY account_type;"
+  },
+  {
+    "id": 13,
+    "difficulty": "Intermediate",
+    "category": "Group By",
+    "question": "How many transactions exist for each currency?",
+    "expected_sql": "SELECT currency, COUNT(*) FROM transactions GROUP BY currency;"
+  },
+  {
+    "id": 14,
+    "difficulty": "Intermediate",
+    "category": "Join",
+    "question": "Show customers and their account balances.",
+    "expected_sql": "SELECT c.first_name, c.last_name, a.balance FROM customers c JOIN accounts a ON c.customer_id=a.customer_id;"
+  },
+  {
+    "id": 15,
+    "difficulty": "Intermediate",
+    "category": "Join",
+    "question": "What is the average account balance by country?",
+    "expected_sql": "SELECT c.country, AVG(a.balance) FROM customers c JOIN accounts a ON c.customer_id=a.customer_id GROUP BY c.country;"
+  },
+
+
+  {
+    "id": 16,
+    "difficulty": "Intermediate",
+    "category": "Join",
+    "question": "Show all transactions with customer information.",
+    "expected_sql": "SELECT c.first_name, c.last_name, t.amount FROM customers c JOIN accounts a ON c.customer_id=a.customer_id JOIN transactions t ON a.account_id=t.account_id;"
+  },
+  {
+    "id": 17,
+    "difficulty": "Intermediate",
+    "category": "Group By",
+    "question": "What is the total transaction amount by transaction type?",
+    "expected_sql": "SELECT transaction_type, SUM(amount) FROM transactions GROUP BY transaction_type;"
+  },
+
+
+  {
+    "id": 18,
+    "difficulty": "Advanced",
+    "category": "Financial Analytics",
+    "question": "What is the total investment value for each customer?",
+    "expected_sql": "SELECT customer_id, SUM(quantity*purchase_price) FROM investments GROUP BY customer_id;"
+  },
+  {
+    "id": 19,
+    "difficulty": "Advanced",
+    "category": "Join",
+    "question": "What is the total invested amount by asset class?",
+    "expected_sql": "SELECT asset_class, SUM(quantity*purchase_price) FROM assets JOIN investments USING(asset_id) GROUP BY asset_class;"
+  },
+  {
+    "id": 20,
+    "difficulty": "Advanced",
+    "category": "Ranking",
+    "question": "Which customers have the highest total balance?",
+    "expected_sql": "SELECT customer_id, SUM(balance) FROM accounts GROUP BY customer_id ORDER BY SUM(balance) DESC;"
+  }
+]
