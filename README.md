@@ -108,40 +108,21 @@ Stores financial instruments:
 
 The system performs:
 
-1. User Input Processing
-
-Example:
-
-"What is the total transaction volume by country?"
-
-↓
-
-2. Context Injection
-
-The LLM receives:
-
-Database schema
-Table relationships
-Column descriptions
-SQL generation instructions
-
-↓
-
-3. SQL Generation
-
-The model creates a PostgreSQL query.
-
-↓
-
-4. Query Execution
-
-Generated SQL is executed against the database.
-
-↓
-
-5. Result Retrieval
-
-The user receives the requested information.
+```text
+User Question
+      |
+      v
+Context Injection (Database Schema + Instructions)
+      |
+      v
+SQL Generation
+      |
+      v
+Query Execution
+      |
+      v
+Result Retrieval
+```
 
 ---
 
