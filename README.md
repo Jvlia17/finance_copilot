@@ -31,6 +31,21 @@ GROUP BY c.country;
 
 ---
 
+# 🎯 Business Problem
+
+Business users often need insights from databases but extracting information requires SQL knowledge.
+
+The goal of this project is to reduce the gap between business questions and database access by allowing users to query financial data using natural language.
+
+Potential applications:
+
+- Self-service analytics tools
+- Banking dashboards
+- Financial reporting assistants
+- Business intelligence automation
+
+---
+
 # 🗄️ Database Design
 
 The project uses a PostgreSQL relational database representing a financial institution.
@@ -150,6 +165,32 @@ The system uses prompt engineering techniques to improve:
 
 ---
 
+# 🧪 Technologies Used
+
+## Programming
+- Python
+- SQL
+
+## Database
+- PostgreSQL
+
+## AI / LLM
+- Groq API
+- Large Language Models (LLMs)
+- Prompt Engineering
+- Text-to-SQL generation
+
+## Python Libraries
+- pandas
+- psycopg2
+- python-dotenv
+
+## Development Tools
+- Git
+- PyCharm
+
+---
+
 # 📊 Evaluation Dataset
 
 To measure SQL generation quality, an evaluation dataset was created.
@@ -226,16 +267,27 @@ The results show that the model can reliably handle common analytical queries, w
 
 # 📁 Project Structure
 
-```markdown
+```text
 finance_copilot/
 │
-├── sql_agent.py # Main Text-to-SQL application
-├── evaluate.py # Evaluation pipeline
-├── data_generator.py # Synthetic financial data generation
-├── database_setup.py # Database initialization
-├── evaluation_dataset.json # Benchmark questions and expected SQL
-├── database_schema.json # Database schema description for LLM prompting
-├── requirements.txt # Python dependencies
+├── python/
+│ ├── sql_agent.py
+│ ├── evaluate.py
+│ └── data_generator.py
+│
+├── sql/
+│ └── create_tables.sql
+│
+├── data/
+│ └── evaluation_dataset.json
+│
+├── config/
+│ └── database_schema.json
+│
+├── results/
+│ └── evaluation_results.json
+│
+├── requirements.txt
 ├── README.md
 └── .env # Environment variables (not included)
 ```
@@ -246,19 +298,78 @@ finance_copilot/
 
 1. Clone the repository
 
+Clone the project from GitHub:
 ```bash
 git clone <repository-url>
 cd finance_copilot
+```
 
 2. Install dependencies
+
+Install required Python packages:
+
+```bash
 pip install -r requirements.txt
+```
 
 3. Configure environment variables
 
-Create a .env file in the project root:
+Create a .env file in the project root directory:
 
-DATABASE_URL=your_postgresql_connection_string
-LLM_API_KEY=your_api_key
+```bash
+GROQ_API_KEY=your_api_key
+```
+
+The API key is required to connect the Large Language Model used for SQL generation.
+
+4. Set up PostgreSQL database
+
+Create the database tables by executing:
+
+Run sql/create_tables.sql in PostgreSQL to create database tables.
+
+Generate synthetic financial data:
+
+```bash
+cd python
+python data_generator.py
+```
+
+5. Run the Text-to-SQL assistant
+
+Start the application:
+
+```bash
+python sql_agent.py
+```
+
+Example:
+
+Ask a database question:
+- What is the average account balance by country?
+
+The assistant will:
+
+- Process the natural language question
+- Generate SQL using the LLM
+- Execute the query against PostgreSQL
+- Return the database result
+
+6. Run evaluation
+
+Evaluate SQL generation performance:
+
+```bash
+python evaluate.py
+```
+
+The evaluation script:
+
+- Loads benchmark questions from data/evaluation_dataset.json
+- Generates SQL queries
+- Executes queries against PostgreSQL
+- Compares generated results with expected outputs
+- Calculates accuracy
 
 ---
 

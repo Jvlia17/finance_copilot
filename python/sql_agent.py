@@ -14,7 +14,7 @@ client = Groq(
 def load_schema():
 
     with open(
-        "database_schema.md",
+            "../config/database_schema.md",
         "r",
         encoding="utf-8"
     ) as file:

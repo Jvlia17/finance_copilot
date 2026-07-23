@@ -22,7 +22,7 @@ DB_CONFIG = {
 # Load evaluation dataset
 # ==========================
 
-with open("evaluation_dataset.json", "r", encoding="utf-8") as file:
+with open("../data/evaluation_dataset.json", "r", encoding="utf-8") as file:
     dataset = json.load(file)
 
 
@@ -248,7 +248,7 @@ print(
 # Save report
 
 with open(
-    "evaluation_results.json",
+        "../results/evaluation_results.json",
     "w",
     encoding="utf-8"
 ) as file:
