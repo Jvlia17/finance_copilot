@@ -2,15 +2,13 @@
 
 End-to-end AI project that enables users to query a financial database using natural language.
 
-The project demonstrates how Large Language Models (LLMs) can be combined with relational databases to automatically generate SQL queries from user questions, execute them, and return business insights.
+The project demonstrates how Large Language Models (LLMs) can be integrated with relational databases to translate business questions into SQL queries, execute them, and deliver data-driven insights.
 
-The system simulates a financial analytics assistant capable of answering questions about customers, accounts, transactions, and investments.
+The system implements a Text-to-SQL financial analytics assistant capable of answering questions about customers, accounts, transactions, and investments.
 
 ---
 
 # 🔷 Project Overview
-
-Accessing business data often requires SQL knowledge, which creates a barrier for non-technical users.
 
 The goal of this project is to build a Natural Language to SQL assistant that allows users to interact with structured financial data by simply asking questions in plain English.
 
@@ -31,105 +29,63 @@ ON c.customer_id = a.customer_id
 GROUP BY c.country;
 ```
 
-The project combines:
-
-Large Language Models (LLMs) for SQL generation
-PostgreSQL for structured data storage
-Python for database interaction and automation
-Prompt engineering for reliable SQL generation
-Evaluation datasets for measuring model performance.
-
----
-
-# 🎯 Business Problem
-
-Many organizations store valuable information in relational databases, but extracting insights often requires technical SQL expertise.
-
-The objective of this project is to create an AI-powered analytics assistant that allows business users to interact with financial data using natural language.
-
-Potential applications:
-
-Banking analytics assistants
-Self-service BI tools
-Customer support analytics
-Financial reporting automation
-
 ---
 
 # 🗄️ Database Design
 
-The project uses a PostgreSQL relational database simulating a financial institution.
+The project uses a PostgreSQL relational database representing a financial institution.
 
-The database contains:
+The database contains the following entities:
 
-Customers
+## Customers
 
 Stores customer information:
 
-Customer ID
-Name
-Country
-Risk level
-Account creation date
-Accounts
+- Customer ID
+- Name
+- Country
+- Risk level
+- Account creation date
+
+## Accounts
 
 Contains customer banking accounts:
 
-Account ID
-Customer ID
-Account type
-Balance
-Opening date
-Transactions
+- Account ID
+- Customer ID
+- Account type
+- Balance
+- Opening date
+
+## Transactions
 
 Stores account activity:
 
-Transaction ID
-Account ID
-Transaction date
-Transaction type
-Amount
-Currency
-Investments
+- Transaction ID
+- Account ID
+- Transaction date
+- Transaction type
+- Amount
+- Currency
+
+## Investments
 
 Contains customer investment data:
 
-Investment ID
-Customer ID
-Asset ID
-Quantity
-Purchase price
-Purchase date
-Assets
+- Investment ID
+- Customer ID
+- Asset ID
+- Quantity
+- Purchase price
+- Purchase date
+
+## Assets
 
 Stores financial instruments:
 
-Asset name
-Asset class
-Sector
-
----
-
-# ⚙️ System Architecture
-
-The application follows a Text-to-SQL pipeline:
-
-User Question
-      |
-      v
-LLM Prompt
-      |
-      v
-SQL Generation
-      |
-      v
-PostgreSQL Database
-      |
-      v
-Query Execution
-      |
-      v
-Business Result
+- Asset name
+- Asset class
+- Sector
 
 ---
 
@@ -200,30 +156,9 @@ To measure SQL generation quality, an evaluation dataset was created.
 
 The dataset contains:
 
-Natural language questions
-Expected SQL queries
-Different difficulty levels
-
-Examples:
-
-Easy:
-
-"How many customers are in the database?"
-
-Medium:
-
-"What is the average account balance by country?"
-
-Advanced:
-
-"Rank customers by total investment value."
-
-The evaluation dataset allows:
-
-Testing model performance
-Comparing different LLMs
-Improving prompts
-Detecting SQL generation errors
+- Natural language questions
+- Expected SQL queries
+- Different difficulty levels
 
 ---
 
@@ -231,27 +166,30 @@ Detecting SQL generation errors
 
 The Text-to-SQL assistant was evaluated using a custom benchmark dataset containing 20 natural language queries.
 
-The evaluation focuses on whether the generated SQL query produces the same results as the expected SQL query when executed against the PostgreSQL database.
+The evaluation uses an execution-based approach: generated SQL queries are executed against the PostgreSQL database, and results are compared with the expected outputs.
 
-Evaluation categories:
+This approach allows evaluation of query correctness based on actual database results rather than exact SQL string matching.
+
+## 📊 Evaluation Coverage
+
+The benchmark includes different levels of SQL complexity:
 
 - Basic SQL queries
 - Intermediate analytical queries
 - Advanced financial analytics queries
 
-The benchmark covers:
+The evaluation dataset covers:
 
 - Aggregations (`COUNT`, `SUM`, `AVG`, `MAX`)
-- Filtering conditions
-- Sorting and limiting results
+- Filtering conditions (`WHERE`)
+- Sorting and limiting results (`ORDER BY`, `LIMIT`)
 - `GROUP BY` operations
-- Table joins
+- Multi-table joins
 - Financial calculations
 
+---
 
-## Evaluation Results
-
-Initial evaluation results:
+## 🧪 Evaluation Results
 
 | Difficulty | Passed | Total | Accuracy |
 |------------|--------|-------|----------|
@@ -260,25 +198,76 @@ Initial evaluation results:
 | Advanced | 2/4 | 4 | 50% |
 | **Overall** | **16/20** | **20** | **80%** |
 
-
 Overall accuracy:
 
 **80%**
 
+---
 
-## Evaluation Insights
+## 🔍 Evaluation Insights
 
 The model achieved strong performance on basic analytical queries involving:
 
 - Data aggregation
-- Filtering
+- Filtering conditions
 - Simple database lookups
+- Single-table SQL operations
 
 Most failures occurred in scenarios requiring more complex SQL reasoning, including:
 
 - Multi-table joins and understanding relationships between database entities
 - Aggregations combined with sorting and ranking logic
-- Identifying missing relationships using LEFT JOIN and NULL filtering
+- Identifying missing relationships using `LEFT JOIN` and `NULL` filtering
 - Translating business questions into precise SQL operations
 
-The model performed well on basic retrieval and aggregation tasks, but showed limitations when queries required deeper understanding of table relationships and multi-step reasoning.
+The results show that the model can reliably handle common analytical queries, while more complex tasks requiring multi-step reasoning and deeper understanding of relational structures remain challenging.
+
+---
+
+# 📁 Project Structure
+
+```markdown
+finance_copilot/
+│
+├── sql_agent.py # Main Text-to-SQL application
+├── evaluate.py # Evaluation pipeline
+├── data_generator.py # Synthetic financial data generation
+├── database_setup.py # Database initialization
+├── evaluation_dataset.json # Benchmark questions and expected SQL
+├── database_schema.json # Database schema description for LLM prompting
+├── requirements.txt # Python dependencies
+├── README.md
+└── .env # Environment variables (not included)
+```
+
+---
+
+# 🚀 How to Run the Project
+
+1. Clone the repository
+
+```bash
+git clone <repository-url>
+cd finance_copilot
+
+2. Install dependencies
+pip install -r requirements.txt
+
+3. Configure environment variables
+
+Create a .env file in the project root:
+
+DATABASE_URL=your_postgresql_connection_string
+LLM_API_KEY=your_api_key
+
+---
+
+# 🔮 Future Improvements
+
+Potential improvements:
+
+- Add automatic SQL validation before execution
+- Improve prompt engineering for complex joins
+- Add conversational memory for multi-step questions
+- Add query explanation functionality
+- Support larger real-world financial datasets
